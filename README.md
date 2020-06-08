@@ -22,9 +22,10 @@ For industry $i, j \in [1, 26]$, country $k \in [1, ]$, and year $t \in [1990, 2
   - Household final consumption P.3h,
   - Non-profit institutions serving households P.3n,
   - Government final consumption P.3g,
-  - Gross fixed capital formation P.51,	
+  - Gross fixed capital formation P.51,
   - Changes in inventories P.52, and
   - Acquisitions less disposals of valuables P.53.
+
 
 
 Source: https://worldmrio.com/eora26/
