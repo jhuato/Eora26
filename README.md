@@ -18,7 +18,7 @@ For industry $i, j \in [1, 26]$, country $k \in [1, ]$, and year $t \in [1990, 2
   - Profits ("Net operating surplus B.2n"), 
   - Net mixed income ("Net mixed income B.3n"), and
   - Depreciation ("Consumption of fixed capital K.1").
- - Eora26_year_bp_FD.txt: The final demand table contains, for each industry $i \in [1, 26]$, country $k \in [1, 160]$ and year $t \in [1990, 2015]$,
+- Eora26_year_bp_FD.txt: The final demand table contains, for each industry $i \in [1, 26]$, country $k \in [1, 160]$ and year $t \in [1990, 2015]$,
   - Household final consumption P.3h,
   - Non-profit institutions serving households P.3n,
   - Government final consumption P.3g,
