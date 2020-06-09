@@ -67,16 +67,17 @@ Here's what I have so far:
 # This create the vector of the data years
 year <- c(1990:2015) 
 # This creates the URLs to direct R to pull the data in
-urls <- paste("https://worldmrio.com/ComputationsM/Phase199/Loop082/simplified/Eora26_", as.character(year[i]),"_bp.zip", sep="")
+urls <- paste("https://worldmrio.com/ComputationsM/Phase199/Loop082/simplified/Eora26_", as.character(year),"_bp.zip", sep="")
+urls
 # WARNING: The following is not yet debugged.
 # I took this from here:
 # https://stackoverflow.com/questions/3053833/using-r-to-download-zipped-data-file-extract-and-import-data
 # This has to be done in a loop:
-temp <- tempfile()
-download.file(urls[i],temp) # ???
-con <- unz(temp, "x.") # ???
-data <- matrix(scan(con),ncol=???, byrow=TRUE) # ???
-unlink(temp)
+## temp <- tempfile()
+## download.file(urls[i],temp) # ???
+## con <- unz(temp, "x.") # ???
+## data <- matrix(scan(con),ncol=???, byrow=TRUE) # ???
+## unlink(temp)
 ```
 
 # Plots
