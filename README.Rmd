@@ -56,9 +56,28 @@ Source: https://worldmrio.com/eora26/
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# R code
+# Data download
+
+I am at this point, Lara.  I am trying to write a loop function to download all the data files directly from the web site into R.  Since these are zipped file arrays, I need R to unzip the zip files, which when unzipped create folders with the data files in it.  Then I need to pull each of the T, VA, and FD files into R and then perform all the procedures needed to create the time series listed above. 
+
+Here's what I have so far:
 
 ```{r}
+# This create the vector of the data years
+year <- c(1990:2015) 
+# This creates the URLs to direct R to pull the data in
+urls <- paste("https://worldmrio.com/ComputationsM/Phase199/Loop082/simplified/Eora26_", as.character(year[i]),"_bp.zip", sep="")
+# WARNING: The following is not yet debugged.
+# I took this from here:
+# https://stackoverflow.com/questions/3053833/using-r-to-download-zipped-data-file-extract-and-import-data
+# This has to be done in a loop:
+temp <- tempfile()
+download.file(urls[i],temp) # ???
+con <- unz(temp, "x.") # ???
+data <- matrix(scan(con),ncol=???, byrow=TRUE) # ???
+unlink(temp)
+
+
 
 ```
 
