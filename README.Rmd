@@ -1,4 +1,10 @@
-# Eora26 / Deeper Structures
+---
+author: "Julio Huato"
+title: "Deeper Structures / Eora26"
+date: "6/9/2020"
+output:
+  bookdown::html_document2: default
+---
 
 ## Purpose
 
