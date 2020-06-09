@@ -77,11 +77,7 @@ download.file(urls[i],temp) # ???
 con <- unz(temp, "x.") # ???
 data <- matrix(scan(con),ncol=???, byrow=TRUE) # ???
 unlink(temp)
-
-
-
 ```
-
 
 # Plots
 
