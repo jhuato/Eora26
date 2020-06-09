@@ -58,6 +58,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Data download
 
+# HELP!!!
 I am at this point, Lara.  I am trying to write a loop function to download all the data files directly from the web site into R.  Since these are zipped file arrays, I need R to unzip the zip files, which when unzipped create folders with the data files in it.  Then I need to pull each of the T, VA, and FD files into R and then perform all the procedures needed to create the time series listed above. 
 
 Here's what I have so far:
