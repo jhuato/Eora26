@@ -25,6 +25,7 @@ industryi <- c("Agriculture", "Fishing", "Mining and Quarrying",
                "Public Administration", "Education, Health and Other Services", 
                "Private Households", "Others", "Re-export & Re-import")
 
+# This is horribly R syntax.  This is because I am no good with loops.
 industry <- as.vector(rep( c( rep(industryi[1], 6), rep(industryi[2], 6), 
                rep(industryi[3], 6), rep(industryi[4], 6),
                rep(industryi[5], 6), rep(industryi[6], 6), 
@@ -63,6 +64,7 @@ countryi <- c("AFG", "ALB", "DZA", "AND", "AGO", "ATG", "ARG", "ARM", "ABW", "AU
               "TTO", "TUN", "TUR", "TKM", "USR", "UGA", "UKR", "ARE", "GBR", "TZA", 
               "USA", "URY", "UZB", "VUT", "VEN", "VNM", "YEM", "ZMB", "ZWE")
 
+# Bad R coding.  I should have used a loop.
 country <- as.vector(c(rep(countryi[1],	6*26),	rep(countryi[2],	6*26),
              rep(countryi[3],	6*26),	rep(countryi[4],	6*26),
              rep(countryi[5],	6*26),	rep(countryi[6],	6*26),
