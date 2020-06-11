@@ -29,6 +29,60 @@ $$r_{i; k; t} \equiv \frac{\Pi_{i; k; t}}{\sum_{j=1}^{26} q_{j,i; k; t}}.$$
 
 The Eora26 database used in this work is an abbreviated version of the fuller Eora MRIO international supply-use data base.  The Eora MRIO supply-use tables are converted into the Eora26 input-output tables, aggregating all economic activity into 26 sectors, using methods described in detail in @eora26, @eurostat2008, @lenzen2013, and @lenzen2012.  
 
+"Each zipfile contains the MRIO data in tab-separated .txt files, divided into the transactions matrix T, primary inputs (also called value added) VA, final demand block FD, and satellite accounts (also called environmental extensions or stressors) Q (Q for emissions associated with production, QY for direct emissions by final consumers). Metadata labels are provided in separate .txt files. The unzipped data are ~200MB for each year."^[@eora26.  All transactions are in basic prices.  Basic prices are after-production-tax-and-subsidy prices. The version of the data used is v199.82.]
+
+The Eora26 data sets cover 189 countries, 26 sectors, and 26 years: from 1990 to 2015.  More specifically:
+
+- Eora26_year_bp_T.txt: The transactions table contains, for each country $k \in [1, 189]$ and year $t \in [1990, 2015]$, the intermediate supplies of each industry $i$ to industry $j$: $q_{i,j}$, for $i, j \in [1, 26]$.
+- Eora26_year_bp_VA.txt: The value added table contains, for each industry $i \in [1, 26]$, country $k \in [1, 160]$ and year $t \in [1990, 2015]$,
+  - Wages ("Compensation of employees D.1"), 
+  - Prod taxes ("Taxes on production D.29"), 
+  - Prod subsidies ("Subsidies on production D.39"), 
+  - Profits ("Net operating surplus B.2n"), 
+  - Net mixed income ("Net mixed income B.3n"), and
+  - Depreciation ("Consumption of fixed capital K.1").
+- Eora26_year_bp_FD.txt: The final demand table contains, for each industry $i \in [1, 26]$, country $k \in [1, 160]$ and year $t \in [1990, 2015]$,
+  - Household final consumption P.3h,
+  - Non-profit institutions serving households P.3n,
+  - Government final consumption P.3g,
+  - Gross fixed capital formation P.51,
+  - Changes in inventories P.52, and
+  - Acquisitions less disposals of valuables P.53.
+
+Source: https://worldmrio.com/eora26/
+
+
+---
+title: "The Deeper Structures of Late Global Capitalism: Eora26"
+author: "Julio Huato"
+date: "6/9/2020"
+output:
+  bookdown::html_document2: default
+  bookdown::pdf_document2: default
+bibliography: bib.bib
+---
+
+# Purpose
+
+This work is the part of the project *The Deeper Structures of Late Global Capitalism* based on the Eora26 data sets.^[@eora26] For each 
+
+- industry $i, j \in [1, 26]$, 
+- country $k \in [1, 189]$, and 
+- year $t \in [1990, 2015]$, this work aims to extract, plot, and analyze time series (1990-2015) of:
+
+1. The rate of surplus value, 
+$$\sigma_{i; k; t} \equiv \frac{\Pi_{i; k; t}}{W_{i; k; t}}$$,
+2. the capital composition, 
+$$h_{i; k; t} \equiv \frac{\sum_{j=1}^{26} q_{j, i; k; t}}{W_{i; k; t} }$$, 
+3. the "capital productivity," 
+$$\gamma_{i; k; t} \equiv \frac{ \sum_{j=1}^{26} q_{j, i; k; t} + W_{i; k; t} }{\sum_{j=1}^{26} q_{j,i; k; t}},$$ and
+4. the profit rate, 
+$$r_{i; k; t} \equiv \frac{\Pi_{i; k; t}}{\sum_{j=1}^{26} q_{j,i; k; t} + W_{i; k; t}}.$$
+
+# Data
+
+The Eora26 database used in this work is an abbreviated version of the fuller Eora MRIO international supply-use data base.  The Eora MRIO supply-use tables are converted into the Eora26 input-output tables, aggregating all economic activity into 26 sectors, using methods described in detail in @eora26, @eurostat2008, @lenzen2013, and @lenzen2012.  
+
 "Each zipfile contains the MRIO data in tab-separated .txt files, divided into the transactions matrix T, primary inputs (also called value added) VA, final demand block FD, and satellite accounts (also called environmental extensions or stressors) Q (Q for emissions associated with production, QY for direct emissions by final consumers). Metadata labels are provided in separate .txt files. The unzipped data are ~200MB for each year."^[@eora26.  The version of the data used is v199.82.]
 
 The Eora26 data sets cover 189 countries, 26 sectors, and 26 years: from 1990 to 2015.  More specifically:
@@ -50,6 +104,44 @@ The Eora26 data sets cover 189 countries, 26 sectors, and 26 years: from 1990 to
   - Acquisitions less disposals of valuables P.53.
 
 Source: https://worldmrio.com/eora26/
+
+## Annual flows of constant capital, variable capital, and surplus value
+
+For each year, sector, and country, the annual flow of constant capital is estimated from the T matrix (along each sector's column) as:
+$$c_{i, k} = \sum_{j=1}^{26} q_{j, i}.$$
+
+In turn, the annual flow of variable capital $W$ is estimated in two ways.  From the VA side and, under the Kalecki assumption, from the FD side.  From the VA side:
+$$W = \textrm{Compensation of employees D.1}.$$
+
+From the FD side:
+$$W = \textrm{Household final consumption P.3h}	+ \textrm{Non-profit institutions serving households P.3n}.$$
+
+The annual flow of surplus value $\Pi$ is also estimated from the VA and FD accounts, respectively.  From the VA side:
+
+- $$\Pi = \textrm{Taxes on production D.29} + \textrm{Subsidies on production D.39} + \textrm{Net operating surplus B.2n},$$ and (alternatively)
+= $$\Pi = \textrm{Net operating surplus B.2n}.$$
+
+The former estimate assumes that the state is completely subservient to capital.  The latter assumes that state policies (the legal and political system in general) are contested or subject to the class balance of forces. 
+
+## The structural parameters: $\sigma$, $h$, $\gamma$, and $r$
+
+Once the estimates of the annual flows of constant capital, variable capital, and surplus value are calculated, the structural parameters $\sigma$, $h$, $\gamma$, and $r$ can also be determined, for each year, country, and sector.
+
+- Surplus value rate: 
+$$\sigma = \frac{\Pi}{W},$$
+- Capital composition (flow-flow):
+$$h = \frac{c}{W},$$
+- Capital productivity (flow-flow):
+$$\gamma = \frac{Y}{c + W},$$
+- Profit rate (flow-flow):
+$$r = \frac{\Pi}{c + W}.$$
+
+For each year, the length of the vectors of structural parameters is 189 countries times 26 sectors or 4914 entries.  Extracting the full time series requires that we obtain these vectors for the 26 years for which we have data: 1990-2015.
+
+For a given year, the estimation of the annual flows of constant capital in each industry and country requires the following calculation:
+$$c_{i, k} = \sum_{j=1}^{26} q_{j, i}.$$
+
+The annual flow of variable capital can, again, be calculated according to the following formula:
 
 # R Code
 
