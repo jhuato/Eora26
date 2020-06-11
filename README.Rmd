@@ -84,11 +84,6 @@ $$r = \frac{\Pi}{c + W}.$$
 
 For each year, the length of the vectors of structural parameters is 189 countries times 26 sectors or 4914 entries.  Extracting the full time series requires that we obtain these vectors for the 26 years for which we have data: 1990-2015.
 
-For a given year, the estimation of the annual flows of constant capital in each industry and country requires the following calculation:
-$$c_{i, k} = \sum_{j=1}^{26} q_{j, i}.$$
-
-The annual flow of variable capital can, again, be calculated according to the following formula:
-
 # R Code
 
 R code here.
@@ -98,3 +93,4 @@ R code here.
 Plots here.
 
 # References
+
