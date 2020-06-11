@@ -84,6 +84,14 @@ $$r = \frac{\Pi}{c + W}.$$
 
 For each year, the length of the vectors of structural parameters is 189 countries times 26 sectors or 4914 entries.  Extracting the full time series requires that we obtain these vectors for the 26 years for which we have data: 1990-2015.
 
+# Global aggregates by sector
+
+Global aggregates of the structural parameters by sector.
+
+# Regional aggregates by sector
+
+Regional aggregates of the structural parameters by sector.  Using the World Bank and CIA classifications.
+
 # R Code
 
 R code here.
