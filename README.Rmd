@@ -19,11 +19,11 @@ This work is the part of the project *The Deeper Structures of Late Global Capit
 1. The rate of surplus value, 
 $$\sigma_{i; k; t} \equiv \frac{\Pi_{i; k; t}}{W_{i; k; t}},$$
 2. the capital composition (flow-flow), 
-$$h_{i; k; t} \equiv \frac{\delta_{i; k; t} + \sum_{j=1}^{26} q_{j, i; k; t}}{W_{i; k; t} },$$ 
+$$h_{i; k; t} \equiv \frac{\delta_{i; k; t} + \sum_{j=1}^{26} p_{j; k; t} \ q_{j, i; k; t}}{W_{i; k; t} },$$ 
 3. the "capital productivity" (flow-flow), 
-$$\gamma_{i; k; t} \equiv \frac{ W_{i; k; t} + \Pi_{i; k; t} }{\delta_{i; k; t} +  \sum_{j=1}^{26} q_{j, i; k; t} + W_{i; k; t} },$$ and
+$$\gamma_{i; k; t} \equiv \frac{ W_{i; k; t} + \Pi_{i; k; t} }{\delta_{i; k; t} +  \sum_{j=1}^{26} p_{j; k; t} \ q_{j, i; k; t} + W_{i; k; t} },$$ and
 4. the profit rate (flow-flow), 
-$$r_{i; k; t} \equiv \frac{\Pi_{i; k; t}}{ \delta_{i; k; t} + \sum_{j=1}^{26} q_{j,i; k; t} + W_{i; k; t}}.$$
+$$r_{i; k; t} \equiv \frac{\Pi_{i; k; t}}{ \delta_{i; k; t} + \sum_{j=1}^{26} p_{j; k; t} \ q_{j,i; k; t} + W_{i; k; t}}.$$
 
 # Data
 
@@ -54,7 +54,7 @@ Source: https://worldmrio.com/eora26/
 ## Annual flows of constant capital, variable capital, and surplus value
 
 For each year and country, the annual flow of constant capital for a given sector $i$ is estimated from the T matrix (along each sector's column) as:
-$$c_{i} = \sum_{j=1}^{26} q_{j, i}.$$
+$$c_{i} = \sum_{j=1}^{26} p_j \ q_{j, i}.$$
 
 In turn, the annual flow of variable capital $W$ is estimated in two ways.  From the VA side and, under the Kalecki assumption, from the FD side.  From the VA side:
 $$W = \textrm{Compensation of employees D.1}.$$
