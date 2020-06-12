@@ -17,13 +17,13 @@ This work is the part of the project *The Deeper Structures of Late Global Capit
 - year $t \in [1990, 2015]$, this work aims to extract, plot, and analyze time series (1990-2015) of:
 
 1. The rate of surplus value, 
-$$\sigma_{i; k; t} \equiv \frac{\Pi_{i; k; t}}{W_{i; k; t}}$$,
-2. the capital composition, 
-$$h_{i; k; t} \equiv \frac{\sum_{j=1}^{26} q_{j, i; k; t}}{W_{i; k; t} }$$, 
-3. the "capital productivity," 
-$$\gamma_{i; k; t} \equiv \frac{ \sum_{j=1}^{26} q_{j, i; k; t} + W_{i; k; t} }{\sum_{j=1}^{26} q_{j,i; k; t}},$$ and
-4. the profit rate, 
-$$r_{i; k; t} \equiv \frac{\Pi_{i; k; t}}{\sum_{j=1}^{26} q_{j,i; k; t} + W_{i; k; t}}.$$
+$$\sigma_{i; k; t} \equiv \frac{\Pi_{i; k; t}}{W_{i; k; t}},$$
+2. the capital composition (flow-flow), 
+$$h_{i; k; t} \equiv \frac{\delta_{i; k; t} + \sum_{j=1}^{26} q_{j, i; k; t}}{W_{i; k; t} },$$ 
+3. the "capital productivity" (flow-flow), 
+$$\gamma_{i; k; t} \equiv \frac{ W_{i; k; t} + \Pi_{i; k; t} }{\delta_{i; k; t} +  \sum_{j=1}^{26} q_{j, i; k; t} + W_{i; k; t} },$$ and
+4. the profit rate (flow-flow), 
+$$r_{i; k; t} \equiv \frac{\Pi_{i; k; t}}{ \delta_{i; k; t} + \sum_{j=1}^{26} q_{j,i; k; t} + W_{i; k; t}}.$$
 
 # Data
 
@@ -40,7 +40,7 @@ The Eora26 data sets cover 189 countries, 26 sectors, and 26 years: from 1990 to
   - Subsidies on production D.39, 
   - Net operating surplus B.2n, 
   - Net mixed income B.3n, and
-  - Consumption of fixed capital K.1.
+  - Consumption of fixed capital K.1, $\delta$.
 - Eora26_year_bp_FD.txt: The final demand table contains, for each industry $i \in [1, 26]$, country $k \in [1, 160]$ and year $t \in [1990, 2015]$,
   - Household final consumption P.3h,
   - Non-profit institutions serving households P.3n,
@@ -53,8 +53,8 @@ Source: https://worldmrio.com/eora26/
 
 ## Annual flows of constant capital, variable capital, and surplus value
 
-For each year, sector, and country, the annual flow of constant capital is estimated from the T matrix (along each sector's column) as:
-$$c_{i, k} = \sum_{j=1}^{26} q_{j, i}.$$
+For each year and country, the annual flow of constant capital for a given sector $i$ is estimated from the T matrix (along each sector's column) as:
+$$c_{i} = \sum_{j=1}^{26} q_{j, i}.$$
 
 In turn, the annual flow of variable capital $W$ is estimated in two ways.  From the VA side and, under the Kalecki assumption, from the FD side.  From the VA side:
 $$W = \textrm{Compensation of employees D.1}.$$
@@ -64,8 +64,8 @@ $$W = \textrm{Household final consumption P.3h}	+ \textrm{Non-profit institution
 
 The annual flow of surplus value $\Pi$ is also estimated from the VA and FD accounts, respectively.  From the VA side:
 
-- $$\Pi = \textrm{Taxes on production D.29} + \textrm{Subsidies on production D.39} + \textrm{Net operating surplus B.2n},$$ and (alternatively)
-= $$\Pi = \textrm{Net operating surplus B.2n}.$$
+- $\Pi = \textrm{Taxes on production D.29} + \textrm{Subsidies on production D.39} + \textrm{Net operating surplus B.2n},$ and (alternatively)
+- $\Pi = \textrm{Net operating surplus B.2n}$.
 
 The former estimate assumes that the state is completely subservient to capital.  The latter assumes that state policies (the legal and political system in general) are contested or subject to the class balance of forces. 
 
@@ -101,4 +101,3 @@ R code here.
 Plots here.
 
 # References
-
