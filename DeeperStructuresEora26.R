@@ -1,17 +1,16 @@
 # JH
 # Eora26 2015 VA data set
 
-Y <- read.delim("~/Downloads/Eora26_2015_bp/Eora26_2015_bp_VA copy JH.txt", header=FALSE)
+Y <- scan("~/Downloads/Eora26_2015_bp/Eora26_2015_bp_VA copy JH.txt")
 Y <- as.numeric(Y) 
 Y <- Y[-(29485:29490)] # to remove the statistical discrepancy row
 
+
 Y <- as.vector(Y)
-str(Y)
-variable <- as.vector(rep(c("Wages", "Prod taxes", "Prod subsidies", "Profits", 
-                            "Net mixed income", "Depreciation"), length(Y)/6))
-head(variable, 10)
-tail(variable, 10)
-str(variable)
+
+variablei <-c("Wages", "Prod taxes", "Prod subsidies", "Profits", 
+                            "Net mixed income", "Depreciation")
+
 
 industryi <- c("Agriculture", "Fishing", "Mining and Quarrying", 
                "Food & Beverages", "Textiles and Wearing Apparel", 
@@ -25,24 +24,7 @@ industryi <- c("Agriculture", "Fishing", "Mining and Quarrying",
                "Public Administration", "Education, Health and Other Services", 
                "Private Households", "Others", "Re-export & Re-import")
 
-# This is horribly R syntax.  This is because I am no good with loops.
-industry <- as.vector(rep( c( rep(industryi[1], 6), rep(industryi[2], 6), 
-               rep(industryi[3], 6), rep(industryi[4], 6),
-               rep(industryi[5], 6), rep(industryi[6], 6), 
-               rep(industryi[7], 6), rep(industryi[8], 6),
-               rep(industryi[9], 6), rep(industryi[10], 6), 
-               rep(industryi[11], 6), rep(industryi[12], 6),
-               rep(industryi[13], 6), rep(industryi[14], 6), 
-               rep(industryi[15], 6), rep(industryi[16], 6),
-               rep(industryi[17], 6), rep(industryi[18], 6), 
-               rep(industryi[19], 6), rep(industryi[20], 6),
-               rep(industryi[21], 6), rep(industryi[22], 6), 
-               rep(industryi[23], 6), rep(industryi[24], 6),
-               rep(industryi[25], 6), rep(industryi[26], 6)), 189))
 
-head(industry, 10)
-tail(industry, 10)
-str(industry)
 
 countryi <- c("AFG", "ALB", "DZA", "AND", "AGO", "ATG", "ARG", "ARM", "ABW", "AUS", 
               "AUT", "AZE", "BHS", "BHR", "BGD", "BRB", "BLR", "BEL", "BLZ", "BEN", 
@@ -64,105 +46,13 @@ countryi <- c("AFG", "ALB", "DZA", "AND", "AGO", "ATG", "ARG", "ARM", "ABW", "AU
               "TTO", "TUN", "TUR", "TKM", "USR", "UGA", "UKR", "ARE", "GBR", "TZA", 
               "USA", "URY", "UZB", "VUT", "VEN", "VNM", "YEM", "ZMB", "ZWE")
 
-# Bad R coding.  I should have used a loop.
-country <- as.vector(c(rep(countryi[1],	6*26),	rep(countryi[2],	6*26),
-             rep(countryi[3],	6*26),	rep(countryi[4],	6*26),
-             rep(countryi[5],	6*26),	rep(countryi[6],	6*26),
-             rep(countryi[7],	6*26),	rep(countryi[8],	6*26),
-             rep(countryi[9],	6*26),	rep(countryi[10],	6*26),
-             rep(countryi[11],	6*26),	rep(countryi[12],	6*26),
-             rep(countryi[13],	6*26),	rep(countryi[14],	6*26),
-             rep(countryi[15],	6*26),	rep(countryi[16],	6*26),
-             rep(countryi[17],	6*26),	rep(countryi[18],	6*26),
-             rep(countryi[19],	6*26),	rep(countryi[20],	6*26),
-             rep(countryi[21],	6*26),	rep(countryi[22],	6*26),
-             rep(countryi[23],	6*26),	rep(countryi[24],	6*26),
-             rep(countryi[25],	6*26),	rep(countryi[26],	6*26),
-             rep(countryi[27],	6*26),	rep(countryi[28],	6*26),
-             rep(countryi[29],	6*26),	rep(countryi[30],	6*26),
-             rep(countryi[31],	6*26),	rep(countryi[32],	6*26),
-             rep(countryi[33],	6*26),	rep(countryi[34],	6*26),
-             rep(countryi[35],	6*26),	rep(countryi[36],	6*26),
-             rep(countryi[37],	6*26),	rep(countryi[38],	6*26),
-             rep(countryi[39],	6*26),	rep(countryi[40],	6*26),
-             rep(countryi[41],	6*26),	rep(countryi[42],	6*26),
-             rep(countryi[43],	6*26),	rep(countryi[44],	6*26),
-             rep(countryi[45],	6*26),	rep(countryi[46],	6*26),
-             rep(countryi[47],	6*26),	rep(countryi[48],	6*26),
-             rep(countryi[49],	6*26),	rep(countryi[50],	6*26),
-             rep(countryi[51],	6*26),	rep(countryi[52],	6*26),
-             rep(countryi[53],	6*26),	rep(countryi[54],	6*26),
-             rep(countryi[55],	6*26),	rep(countryi[56],	6*26),
-             rep(countryi[57],	6*26),	rep(countryi[58],	6*26),
-             rep(countryi[59],	6*26),	rep(countryi[60],	6*26),
-             rep(countryi[61],	6*26),	rep(countryi[62],	6*26),
-             rep(countryi[63],	6*26),	rep(countryi[64],	6*26),
-             rep(countryi[65],	6*26),	rep(countryi[66],	6*26),
-             rep(countryi[67],	6*26),	rep(countryi[68],	6*26),
-             rep(countryi[69],	6*26),	rep(countryi[70],	6*26),
-             rep(countryi[71],	6*26),	rep(countryi[72],	6*26),
-             rep(countryi[73],	6*26),	rep(countryi[74],	6*26),
-             rep(countryi[75],	6*26),	rep(countryi[76],	6*26),
-             rep(countryi[77],	6*26),	rep(countryi[78],	6*26),
-             rep(countryi[79],	6*26),	rep(countryi[80],	6*26),
-             rep(countryi[81],	6*26),	rep(countryi[82],	6*26),
-             rep(countryi[83],	6*26),	rep(countryi[84],	6*26),
-             rep(countryi[85],	6*26),	rep(countryi[86],	6*26),
-             rep(countryi[87],	6*26),	rep(countryi[88],	6*26),
-             rep(countryi[89],	6*26),	rep(countryi[90],	6*26),
-             rep(countryi[91],	6*26),	rep(countryi[92],	6*26),
-             rep(countryi[93],	6*26),	rep(countryi[94],	6*26),
-             rep(countryi[95],	6*26),	rep(countryi[96],	6*26),
-             rep(countryi[97],	6*26),	rep(countryi[98],	6*26),
-             rep(countryi[99],	6*26),	rep(countryi[100],	6*26),
-             rep(countryi[101],	6*26),	rep(countryi[102],	6*26),
-             rep(countryi[103],	6*26),	rep(countryi[104],	6*26),
-             rep(countryi[105],	6*26),	rep(countryi[106],	6*26),
-             rep(countryi[107],	6*26),	rep(countryi[108],	6*26),
-             rep(countryi[109],	6*26),	rep(countryi[110],	6*26),
-             rep(countryi[111],	6*26),	rep(countryi[112],	6*26),
-             rep(countryi[113],	6*26),	rep(countryi[114],	6*26),
-             rep(countryi[115],	6*26),	rep(countryi[116],	6*26),
-             rep(countryi[117],	6*26),	rep(countryi[118],	6*26),
-             rep(countryi[119],	6*26),	rep(countryi[120],	6*26),
-             rep(countryi[121],	6*26),	rep(countryi[122],	6*26),
-             rep(countryi[123],	6*26),	rep(countryi[124],	6*26),
-             rep(countryi[125],	6*26),	rep(countryi[126],	6*26),
-             rep(countryi[127],	6*26),	rep(countryi[128],	6*26),
-             rep(countryi[129],	6*26),	rep(countryi[130],	6*26),
-             rep(countryi[131],	6*26),	rep(countryi[132],	6*26),
-             rep(countryi[133],	6*26),	rep(countryi[134],	6*26),
-             rep(countryi[135],	6*26),	rep(countryi[136],	6*26),
-             rep(countryi[137],	6*26),	rep(countryi[138],	6*26),
-             rep(countryi[139],	6*26),	rep(countryi[140],	6*26),
-             rep(countryi[141],	6*26),	rep(countryi[142],	6*26),
-             rep(countryi[143],	6*26),	rep(countryi[144],	6*26),
-             rep(countryi[145],	6*26),	rep(countryi[146],	6*26),
-             rep(countryi[147],	6*26),	rep(countryi[148],	6*26),
-             rep(countryi[149],	6*26),	rep(countryi[150],	6*26),
-             rep(countryi[151],	6*26),	rep(countryi[152],	6*26),
-             rep(countryi[153],	6*26),	rep(countryi[154],	6*26),
-             rep(countryi[155],	6*26),	rep(countryi[156],	6*26),
-             rep(countryi[157],	6*26),	rep(countryi[158],	6*26),
-             rep(countryi[159],	6*26),	rep(countryi[160],	6*26),
-             rep(countryi[161],	6*26),	rep(countryi[162],	6*26),
-             rep(countryi[163],	6*26),	rep(countryi[164],	6*26),
-             rep(countryi[165],	6*26),	rep(countryi[166],	6*26),
-             rep(countryi[167],	6*26),	rep(countryi[168],	6*26),
-             rep(countryi[169],	6*26),	rep(countryi[170],	6*26),
-             rep(countryi[171],	6*26),	rep(countryi[172],	6*26),
-             rep(countryi[173],	6*26),	rep(countryi[174],	6*26),
-             rep(countryi[175],	6*26),	rep(countryi[176],	6*26),
-             rep(countryi[177],	6*26),	rep(countryi[178],	6*26),
-             rep(countryi[179],	6*26),	rep(countryi[180],	6*26),
-             rep(countryi[181],	6*26),	rep(countryi[182],	6*26),
-             rep(countryi[183],	6*26),	rep(countryi[184],	6*26),
-             rep(countryi[185],	6*26),	rep(countryi[186],	6*26),
-             rep(countryi[187],	6*26),	rep(countryi[188],	6*26),
-             rep(countryi[189], 6*26) ))
-head(country, 160)
-tail(country, 160)
-str(country)
+
+
+variable <-rep(variablei, length(Y)/length(variablei))
+
+country<-rep(countryi, each=length(variablei)*length(industryi))
+
+industry<-rep(rep(industryi,each=length(variablei)),length((countryi)))
+
 VA <- data.frame(country, industry, variable, Y) # Error message
-head(VA)
-tail(VA)
+
