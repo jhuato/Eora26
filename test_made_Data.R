@@ -41,16 +41,38 @@ T<-data.frame(year,country,industry, AC,AD,BC,BD)
 ### Generate VA data
 
 wages<-c(2,1,1,1,3,2,2,2)
+taxes<-runif(n = 8, min = 0, max = 6)
+subsidies<-runif(n = 8, min = 0, max = 6)
 profits<-c(2,2,1,3,3,3,2,4)
+nmi<-runif(n = 8, min = 0, max = 6)
+depreciation<-runif(n = 8, min = 0, max = 6)
 
-VA<-data.frame(year, country, industry, wages, profits)
+VA<-data.frame(year, country, industry, wages, profits,taxes, subsidies, nmi, depreciation)
 
 ### Generate final demand data
 
 A.household<-c(2,1,1,3,3,4,2,5)
 B.household<-c(1,1,2,2,2,2,1,2)
 
-FD<-data.frame(year,country,industry, A.household,B.household)
+
+A.non-profit<-runif(n = 8, min = 0, max = 6)
+B.non-profit<-runif(n = 8, min = 0, max = 6)
+
+A.government<-runif(n = 8, min = 0, max = 6)
+B.government<-runif(n = 8, min = 0, max = 6)
+
+A.capitalformation<-runif(n = 8, min = 0, max = 6)
+B.capitalformation<-runif(n = 8, min = 0, max = 6)
+
+A.inventories<-runif(n = 8, min = 0, max = 6)
+B.inventories<-runif(n = 8, min = 0, max = 6)
+
+A.acquisitions<-runif(n = 8, min = 0, max = 6)
+B.acquisitions<-runif(n = 8, min = 0, max = 6)
+
+FD<-data.frame(year,country,industry, A.household,B.household, A.government, B.government,
+               A.capitalformation, B.capitalformation, A.inventories,B.inventories,A.acquisitions,
+               B.acquisitions)
 
 
 ### Calculate our relevant variables by industry
@@ -58,19 +80,21 @@ FD<-data.frame(year,country,industry, A.household,B.household)
 ### Constant capital
 
 
+
+
 variables_industry<-T %>% group_by(year)%>%summarise_if(is.numeric,sum) #Sum across all columns (by year)
 
 # Transform to a tidy form to manipulate
 
-variables_industry<-variables_industry %>% pivot_longer(-year,"i", values_to="c") 
+variables_industry<-variables_industry %>% pivot_longer(-year,"i", values_to="constant") 
 
 ###Add year and country
 
-variables_industry<-variables_industry%>%mutate(country,industry)%>%select(year, country, industry, c)
+variables_industry<-variables_industry%>%mutate(country,industry)%>%select(year, country, industry, constant)
 
 ### Add Value-Added to our data.frame of variables
 
-variables_industry<-variables_industry %>% mutate(wages, profits,Y=wages+profits)
+variables_industry<-variables_industry %>% mutate(wages, profits, depreciation, Y=wages+profits, c=constant+depreciation)
 
 ## Generate our marxist variables:
 
@@ -113,6 +137,8 @@ variables_year<-variables_year %>% mutate(sigma=profits/wages,h=c/wages,gamma=Y/
 
 
 ####### Plots of time series
+
+
 
 # All industries + countries
 # All countries
