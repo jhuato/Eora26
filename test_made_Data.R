@@ -132,7 +132,7 @@ variables_year<-variables_year %>% mutate(sigma=profits/wages,h=c/wages,gamma=Y/
 
 ### Missing in this code: 
 # Wages from the demand side
-# Depreciation included in the calculation of constant capital
+
 # Taxes and subsidies included (or not) into our measure of surplus value
 
 
