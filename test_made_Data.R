@@ -17,6 +17,8 @@ years<-c(1,2)
 countryi<-c("A","B")
 industryi<-c("C","D")
 
+country_D<-
+
 n<-length(years)
 m<-length(countryi)
 p<-length(industryi)
@@ -48,6 +50,8 @@ nmi<-runif(n = 8, min = 0, max = 6)
 depreciation<-runif(n = 8, min = 0, max = 6)
 
 VA<-data.frame(year, country, industry, wages, profits,taxes, subsidies, nmi, depreciation)
+### Alternative measure of surplus value adding taxes and subsidies
+VA<-VA%>%mutate(svalue_2=profits+taxes+subsidies) 
 
 ### Generate final demand data
 
@@ -55,8 +59,8 @@ A.household<-c(2,1,1,3,3,4,2,5)
 B.household<-c(1,1,2,2,2,2,1,2)
 
 
-A.non-profit<-runif(n = 8, min = 0, max = 6)
-B.non-profit<-runif(n = 8, min = 0, max = 6)
+A.nonprofit<-runif(n = 8, min = 0, max = 6)
+B.nonprofit<-runif(n = 8, min = 0, max = 6)
 
 A.government<-runif(n = 8, min = 0, max = 6)
 B.government<-runif(n = 8, min = 0, max = 6)
@@ -70,16 +74,31 @@ B.inventories<-runif(n = 8, min = 0, max = 6)
 A.acquisitions<-runif(n = 8, min = 0, max = 6)
 B.acquisitions<-runif(n = 8, min = 0, max = 6)
 
-FD<-data.frame(year,country,industry, A.household,B.household, A.government, B.government,
+FD<-data.frame(year,country,industry, A.household,B.household,A.nonprofit, B.nonprofit, A.government, B.government,
                A.capitalformation, B.capitalformation, A.inventories,B.inventories,A.acquisitions,
                B.acquisitions)
 
 
-### Calculate our relevant variables by industry
+### Wages from the demand side
 
-### Constant capital
+#Sum household and nonprofit by country
+W_D_1<-FD %>% select(year,country, industry, ends_with("household"),ends_with("nonprofit") ) %>%group_by(year) %>% summarise_if(is.numeric, sum) 
+
+W_D_2<-W_D_1%>% pivot_longer(-year,names_to="var")
+
+country_D<-rep(countryi,2*n)
+
+W_D_3<-W_D_2%>% mutate(country_D)
+
+# Final demand by country and year W_D
+
+W_D<-W_D_3%>%group_by(year,country_D) %>% summarise(wages_D=sum(value)) 
+
+rm(W_D_1,W_D_2,W_D_3)
 
 
+
+### Calculate constant capital (summing rows in T dataframe)
 
 
 variables_industry<-T %>% group_by(year)%>%summarise_if(is.numeric,sum) #Sum across all columns (by year)
@@ -88,71 +107,119 @@ variables_industry<-T %>% group_by(year)%>%summarise_if(is.numeric,sum) #Sum acr
 
 variables_industry<-variables_industry %>% pivot_longer(-year,"i", values_to="constant") 
 
-###Add year and country
+#Add year and country
 
 variables_industry<-variables_industry%>%mutate(country,industry)%>%select(year, country, industry, constant)
 
-### Add Value-Added to our data.frame of variables
+# Add Value-Added to our data.frame of variables
 
-variables_industry<-variables_industry %>% mutate(wages, profits, depreciation, Y=wages+profits, c=constant+depreciation)
+variables_industry<-variables_industry %>% mutate(wages=VA$wages, profits=VA$profits, svalue_2=VA$svalue_2 ,depreciation=VA$depreciation, c=constant+VA$depreciation,
+                                                  Y_1=VA$wages+VA$profits,Y_2=VA$wages+VA$svalue_2)
 
-## Generate our marxist variables:
+### Generate our marxist variables:
 
-variables_industry<-variables_industry %>% mutate(sigma=profits/wages,h=c/wages,gamma=Y/(c+wages),
-                                                  r=profits/(c+wages))
+# 1: Using profits as surplus-value | 2: Using profits + taxes + subsidies as surplus value
+variables_industry<-variables_industry %>% mutate(h=c/wages, sigma_1=profits/wages,
+                                                  gamma_1=Y_1/(c+wages),r_1=profits/(c+wages))
+                                                  
+variables_industry<-variables_industry %>% mutate(sigma_2=svalue_2/wages,
+                                                  gamma_2=Y_2/(c+wages), r_2=svalue_2/(c+wages))
+### By economic activity
+variables_activity<-variables_industry %>%group_by(year,industry) %>% summarise_if(is.numeric, sum) 
 
 
-########### Now at the country level 
+#1
+
+variables_activity<-variables_activity %>% mutate(h=c/wages, sigma_1=profits/wages,  gamma_1=Y_1/(c+wages), 
+                                                  r_1=profits/(c+wages))
+
+#2
+
+variables_activity<-variables_activity %>% mutate(sigma_2=svalue_2/wages,  gamma_2=Y_2/(c+wages), 
+                                                  r_2=svalue_2/(c+wages))
+
+
+
+### Now at the country level 
 
 variables_country<-variables_industry  %>% group_by(year, country) %>% summarise_if(is.numeric,sum)
 
+#Add wages from the demand side
+w_D<-W_D$wages_D
+
+variables_country<-data.frame(variables_country,w_D) ### Ojo aquí, ¿por qué sí puedo con data.frame y no con mutate?
+
+#should be 
+# variables_country_1<-variables_country %>% mutate(w_D)
 
 
+# Generate the marxist variables at the country level
+#Now: D if we use wages from the Demand side
 
 
-# Generate the marxist variables at the country level#
+#1
 
-variables_country<-variables_country %>% mutate(sigma=profits/wages, h=c/wages, gamma=Y/(c+wages), 
-                                                r=profits/(c+wages))
+variables_country<-variables_country %>% mutate(h=c/wages, sigma_1=profits/wages,  gamma_1=Y_1/(c+wages), 
+                                                r_1=profits/(c+wages))
+#1_D
+variables_country<-variables_country %>% mutate(h_D=c/w_D, sigma_1_D=profits/w_D,  gamma_1_D=profits+w_D/(c+w_D), 
+                                                r_1=profits/(c+w_D))
 
+#2
+
+variables_country<-variables_country %>% mutate(sigma_2=svalue_2/wages,  gamma_2=Y_2/(c+wages), 
+                                                r_2=svalue_2/(c+wages))
+
+#2D
+
+variables_country<-variables_country %>% mutate(sigma_2_D=svalue_2/w_D,  gamma_2_D=svalue_2+w_D/(c+w_D), 
+                                                r_2=svalue_2/(c+w_D))
 
 #### Now at the year level
 
 variables_year<-variables_country %>% group_by(year) %>% summarise_if(is.numeric,sum)
 
-names(variables_industry)
-#%>%  select(year,country,industry,c, wages, profits, Y)
+#1
 
+variables_year<-variables_year %>% mutate(h=c/wages, sigma_1=profits/wages,  gamma_1=Y_1/(c+wages), 
+                                                r_1=profits/(c+wages))
+#1_D
+variables_year<-variables_year %>% mutate(h_D=c/w_D, sigma_1_D=profits/w_D,  gamma_1_D=profits+w_D/(c+w_D), 
+                                                r_1=profits/(c+w_D))
 
+#2
 
-# Generate the marxist variables at the year level ####
+variables_year<-variables_year %>% mutate(sigma_2=svalue_2/wages,  gamma_2=Y_2/(c+wages), 
+                                                r_2=svalue_2/(c+wages))
 
-variables_year<-variables_year %>% mutate(sigma=profits/wages,h=c/wages,gamma=Y/(c+wages),
-                                          r=profits/(c+wages))
+#2D
 
-### Missing in this code: 
-# Wages from the demand side
+variables_year<-variables_year %>% mutate(sigma_2_D=svalue_2/w_D,  gamma_2_D=svalue_2+w_D/(c+w_D), 
+                                                r_2=svalue_2/(c+w_D))
 
-# Taxes and subsidies included (or not) into our measure of surplus value
 
 
 ####### Plots of time series
 
 
+# All industries + countries 
+# Impractical to plot all 4914 ind industries, but by using filter() we can plot whatever country and industry we want
 
-# All industries + countries
+variables_industry %>%  ggplot(aes(year,h )) +
+  geom_line()
+
+
+variables_industry %>%  ggplot(aes(year, sigma_1 )) +
+  geom_line()
+
 # All countries
+#Impractical to plot all 189 countries, but by using filter() we can plot whatever country-set of countries we want
+
+
 # World
 
-
-#####Wages from the demand-side#####
-
-#W_D<-FD %>% group_by(year) %>% summarise_if(is.numeric,sum)
-
-#W_D<-W_D %>%pivot_longer(-year,"country",values_to="W_D")
-
-#Pendiente
+variables_year %>% ggplot(aes(year, sigma_1))+ geom_line()
 
 
-rm(list=ls())
+###economic activity 
 
