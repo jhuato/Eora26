@@ -17,19 +17,20 @@ years<-c(1,2)
 countryi<-c("A","B")
 industryi<-c("C","D")
 
-country_D<-
 
-n<-length(years)
-m<-length(countryi)
-p<-length(industryi)
+
+y<-length(years)
+c<-length(countryi)
+i<-length(industryi)
+
 
 
 ### Generate vectors of indentification
 
 
-year<-rep(years,each=m*p)
-country<-rep(rep(countryi, each=p),n)
-industry<-rep(industryi, m*n)
+year<-rep(years,each=c*i)
+country<-rep(rep(countryi, each=i),y)
+industry<-rep(industryi, c*y)
 
 ### Generate matrix of transactions | first letter= country, second letter= industry
 
@@ -51,6 +52,7 @@ depreciation<-runif(n = 8, min = 0, max = 6)
 
 VA<-data.frame(year, country, industry, wages, profits,taxes, subsidies, nmi, depreciation)
 ### Alternative measure of surplus value adding taxes and subsidies
+
 VA<-VA%>%mutate(svalue_2=profits+taxes+subsidies) 
 
 ### Generate final demand data
@@ -74,9 +76,9 @@ B.inventories<-runif(n = 8, min = 0, max = 6)
 A.acquisitions<-runif(n = 8, min = 0, max = 6)
 B.acquisitions<-runif(n = 8, min = 0, max = 6)
 
-FD<-data.frame(year,country,industry, A.household,B.household,A.nonprofit, B.nonprofit, A.government, B.government,
-               A.capitalformation, B.capitalformation, A.inventories,B.inventories,A.acquisitions,
-               B.acquisitions)
+FD<-data.frame(year,country,industry, 
+               A.household, A.nonprofit,A.government,A.capitalformation,A.inventories,A.acquisitions,
+               B.household, B.nonprofit,  B.government,B.capitalformation, B.inventories,B.acquisitions)
 
 
 ### Wages from the demand side
@@ -86,13 +88,15 @@ W_D_1<-FD %>% select(year,country, industry, ends_with("household"),ends_with("n
 
 W_D_2<-W_D_1%>% pivot_longer(-year,names_to="var")
 
-country_D<-rep(countryi,2*n)
+country_D<-rep(countryi,2*y)
 
 W_D_3<-W_D_2%>% mutate(country_D)
 
+
 # Final demand by country and year W_D
 
-W_D<-W_D_3%>%group_by(year,country_D) %>% summarise(wages_D=sum(value)) 
+
+W_D<-W_D_3%>%group_by(year,country_D) %>% summarise_if(is.numeric,sum) %>% mutate(wages_D=value) %>% select(-value) %>% arrange(year)
 
 rm(W_D_1,W_D_2,W_D_3)
 
@@ -124,6 +128,7 @@ variables_industry<-variables_industry %>% mutate(h=c/wages, sigma_1=profits/wag
                                                   
 variables_industry<-variables_industry %>% mutate(sigma_2=svalue_2/wages,
                                                   gamma_2=Y_2/(c+wages), r_2=svalue_2/(c+wages))
+
 ### By economic activity
 variables_activity<-variables_industry %>%group_by(year,industry) %>% summarise_if(is.numeric, sum) 
 
@@ -170,7 +175,7 @@ variables_country<-variables_country %>% mutate(h_D=c/w_D, sigma_1_D=profits/w_D
 variables_country<-variables_country %>% mutate(sigma_2=svalue_2/wages,  gamma_2=Y_2/(c+wages), 
                                                 r_2=svalue_2/(c+wages))
 
-#2D
+#2_D
 
 variables_country<-variables_country %>% mutate(sigma_2_D=svalue_2/w_D,  gamma_2_D=svalue_2+w_D/(c+w_D), 
                                                 r_2=svalue_2/(c+w_D))
