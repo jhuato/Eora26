@@ -1,6 +1,6 @@
 ---
 title: "The Deeper Structures of Late Global Capitalism: Eora26"
-author: "Julio Huato"
+author: "Julio Huato and Jesús Lara"
 date: "6/9/2020"
 output:
   bookdown::html_document2: default
