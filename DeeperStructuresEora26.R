@@ -48,11 +48,17 @@ countryi <- c("AFG", "ALB", "DZA", "AND", "AGO", "ATG", "ARG", "ARM", "ABW", "AU
 
 
 
-variable <-rep(variablei, length(Y)/length(variablei))
+# variable <-rep(variablei, length(Y)/length(variablei))
+# country<-rep(countryi, each=length(variablei)*length(industryi))
+# industry<-rep(rep(industryi,each=length(variablei)),length((countryi)))
+# VA <- data.frame(country, industry, variable, Y) # Error message
 
-country<-rep(countryi, each=length(variablei)*length(industryi))
+variable <-rep( variablei, each = length(Y)/ length(variablei) )
+country <- rep( rep(countryi, each = length(industryi), length(variablei) )
+industry <- rep( rep( rep(industryi), length(countryi) ), length(variablei) )
 
-industry<-rep(rep(industryi,each=length(variablei)),length((countryi)))
+VA <- data.frame(country, industry, variable, Y)
+names(VA2016) <- c("country", "industry", "variable", "value")
 
-VA <- data.frame(country, industry, variable, Y) # Error message
-
+library(tidyverse)
+VA_w <- VA %>% spread(variable, value)
